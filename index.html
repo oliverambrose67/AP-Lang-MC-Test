@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AP Lang Practice Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom Scrollbar for the question navigation */
+    .custom-scrollbar::-webkit-scrollbar {
+      height: 6px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-track {
+      background: #f1f1f1; 
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb {
+      background: #cbd5e1; 
+      border-radius: 4px;
+    }
+    .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8; 
+    }
+  </style>
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+  
+  <div id="app"></div>
+
+  <script>
+    // --- ICONS (Inline SVGs) ---
+    const icons = {
+      clock: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-yellow-400"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>`,
+      alertCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="inline-block mr-2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+      eyeOff: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9.88 9.88a3 3 0 1 0 4.24 4.24"/><path d="M10.73 5.08A10.43 10.43 0 0 1 12 5c7 0 10 7 10 7a13.16 13.16 0 0 1-1.67 2.68"/><path d="M6.61 6.61A13.526 13.526 0 0 0 2 12s3 7 10 7a9.74 9.74 0 0 0 5.39-1.61"/><line x1="2" y1="2" x2="22" y2="22"/></svg>`,
+      checkCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>`,
+      xCircle: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg>`,
+      chevronLeft: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`,
+      chevronRight: `<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`
+    };
+
+    // --- DATA ---
+    const testData = {
+      passages: [
+        {
+          id: 1,
+          title: "Passage 1: Helen Keller (1903)",
+          content: `[Line 1] Most people measure their happiness in terms of physical pleasure and material possession. Could they win some visible goal which they have set on the horizon, how happy they would be! Lacking this gift or that circumstance, they would be miserable. [Line 5] If happiness is to be so measured, I who cannot hear or see have every reason to sit in a corner with folded hands and weep. If I am happy in spite of my deprivations, if my happiness is so deep that it is a faith, [Line 10] so thoughtful that it becomes a philosophy of life,—if, in short, I am an optimist, my testimony to the creed of optimism is worth hearing. As sinners stand up in meeting and testify to the goodness of God, so one who is called afflicted may rise up in gladness of conviction [Line 15] and testify to the goodness of life. Once I knew the depth where no hope was, and darkness lay on the face of all things. Then love came and set my soul free.
+          \n[Line 18] Once I knew only darkness and stillness. Now I know hope and joy. Once I fretted and beat myself [Line 20] against the wall that shut me in. Now I rejoice in the consciousness that I can think, act and attain heaven. My life was without past or future; death, the pessimist would say, “a consummation devoutly to be wished.” But a little word from the fingers of another fell into [Line 25] my hand that clutched at emptiness, and my heart leaped to the rapture of living. Night fled before the day of thought, and love and joy and hope came up in a passion of obedience to knowledge. Can anyone who [Line 30] has escaped such captivity, who has felt the thrill and glory of freedom, be a pessimist?…
+          \n[Line 32] If I tried, I could not check the momentum of my first leap out of the dark;.... With the first word I used intelligently, I learned to live, to think, to hope. Darkness [Line 35] cannot shut me in again. I have had a glimpse of the shore, and can now live by the hope of reaching it….
+          \n[Line 38] Only by contact with evil could I have learned to feel by contrast the beauty of truth and love and goodness. [Line 40] It is a mistake always to contemplate the good and ignore the evil, because by making people neglectful it lets in disaster. There is a dangerous optimism of ignorance and indifference.… Optimism that does not count the cost is like a house built on sand. A man must [Line 45] understand evil and be acquainted with sorrow before he can write himself an optimist and expect others to believe that he has reason for the faith that is in him.
+          \n[Line 50] I know what evil is. Once or twice I have wrestled with it, and for a time felt its chilling touch on my life; so I speak with knowledge when I say that evil is of no consequence, except as a sort of mental gymnastic. For the very reason that I have come in contact with it, [Line 55] I am more truly an optimist. I can say with conviction that the struggle which evil necessitates is one of the greatest blessings. It makes us strong, patient, helpful men and women. It lets us into the soul of things and teaches us that although the world is full of suffering, [Line 60] it is full also of the overcoming of it.… The world is sown with good; but unless I turn my glad thoughts into practical living and till my own field, I cannot reap a kernel of the good….
+          \n[Line 65] Two generations ago Carlyle flung forth his gospel of work. To the dreamers of the Revolution, who built cloud-castles of happiness, and, when the inevitable winds rent the castles asunder, turned pessimists—to those ineffectual Endymions, Alastors and Werthers [Line 70] this Scots peasant, man of dreams in the hard, practical world, cried aloud his creed of labor. “Be no longer a Chaos, but a World. Produce! produce! Were it but the pitifullest infinitesimal fraction of a product, produce it, in God’s name! ‘Tis the utmost thou hast in thee; out with [Line 75] it, then. Up, up! whatsoever thy hand findeth to do, do it with thy whole might. Work while it is called Today; for the Night cometh wherein no man may work.”
+          \n[Line 78] Some have said Carlyle was taking refuge from a hard world by bidding men grind and toil, eyes to the [Line 80] earth, and so forget their misery. This is not Carlyle’s thought. “Fool!” he cries, “the Ideal is in thyself; the Impediment is also in thyself. Work out the Ideal in the poor, miserable Actual; live, think, believe, and be free!” It is plain what he says, that work, production, brings [Line 85] life out of chaos, makes the individual a world, an order; and order is optimism.`
+        },
+        {
+          id: 2,
+          title: "Passage 2: George H. W. Bush's State of the Union (1992)",
+          content: `[Line 1] Two years ago, I began planning cuts in military spending that reflected the changes of the new era. But now, this year, with imperial communism gone, that process can be accelerated. Tonight I can tell you of [Line 5] dramatic changes in our strategic nuclear force. These are actions we are taking on our own because they are the right thing to do. After completing 20 planes for which we have begun procurement, we will shut down further production of the B-2 bombers. We will cancel [Line 10] the small ICBM program. We will cease production of new warheads for our sea-based ballistic missiles. We will stop all new production of the Peacekeeper missile. And we will not purchase any more advanced cruise missiles.…
+          \n[Line 15] There are those who say that now we can turn away from the world, that we have no special role, no special place. But we are the United States of America, the leader of the West that has become the leader of the world. And as long as I am president, I will continue [Line 20] to lead in support of freedom everywhere, not out of arrogance, not out of altruism, but for the safety and security of our children. This is a fact: Strength in the pursuit of peace is no vice; isolationism in the pursuit of security is no virtue.
+          \n[Line 25] And now to our troubles at home. They’re not all economic, but the primary problem is our economy. There are some good signs. Inflation, that thief, is down. And interest rates are down. But unemployment is too high, some industries are in trouble, and growth [Line 30] is not what it should be. Let me tell you right from the start and right from the heart, I know we’re in hard times. But I know something else: This will not stand…. Now, these are the things I can do. And now, members of Congress, let me tell you what you can do [Line 35] for your country. You must pass the other elements of my plan to meet our economic needs. Everyone knows that investment spurs recovery. I am proposing this evening a change in the alternative minimum tax and the creation of a new 15-percent investment tax [Line 40] allowance. This will encourage businesses to accelerate investment and bring people back to work….
+          \n[Line 42] I’ll tell you, those of you who say, “Oh, no, someone who’s comfortable may benefit from that,” you kind of remind me of the old definition of the Puritan [Line 45] who couldn’t sleep at night, worrying that somehow, someone somewhere was out having a good time. [Laughter] The opponents of this measure and those who have authored various so-called soak-the-rich bills that are floating around this chamber should be [Line 50] reminded of something: When they aim at the big guy, they usually hit the little guy. And maybe it’s time that stopped….
+          \n[Line 54] Let’s be frank. Let’s be frank. Let me level with you. I know and you know that my plan is unveiled in a [Line 56] political season. [Laughter] I know and you know that everything I propose will be viewed by some in merely partisan terms. But I ask you to know what is in my heart. And my aim is to increase our nation’s good. I’m [Line 60] doing what I think is right, and I am proposing what I know will help.
+          \n[Line 62] I pride myself that I’m a prudent man, and I believe that patience is a virtue. But I understand that politics is, for some, a game and that sometimes the [Line 65] game is to stop all progress and then decry the lack of improvement. [Laughter] But let me tell you: Far more important than my political future and far more important than yours is the well-being of our country. Members of this chamber are practical people, and I [Line 70] know you won’t resent some practical advice. When people put their party’s fortunes, whatever the party, whatever side of this aisle, before the public good, they court defeat not only for their country but for themselves. And they will certainly deserve it….
+          \n[Line 75] Moods come and go, but greatness endures. Ours does. And maybe for a moment it’s good to remember what, in the dailiness of our lives, we forget: We are still and ever the freest nation on Earth, the kindest nation on Earth, the strongest nation on Earth. And we [Line 80] have always risen to the occasion. And we are going to lift this nation out of hard times inch by inch and day by day, and those who would stop us had better step aside. Because I look at hard times, and I make this vow: This will not stand.`
+        },
+        {
+          id: 3,
+          title: "Passage 3: Recycling (Draft)",
+          content: `[Sentence 1] Reduce, reuse, recycle. [Sentence 2] For nearly 40 years, this has been the mantra of environmentalists seeking to limit the ecological damage brought about by the accumulation of too much garbage. [Sentence 3] In 2015, Americans were responsible for producing nearly 250 million tons of trash per year. [Sentence 4] Many U.S. communities have implemented recycling initiatives to collect and reuse this trash, including curbside pickup, current recycling systems that utilize single-stream recycling and global changes in recycling processes make recycling an ineffective solution to the growing waste management problem.
+          \n[Sentence 5] Single-stream recycling refers to the process of collecting all types of recycling in one container. [Sentence 6] Single-stream recycling is great for consumers, who only have to toss recyclable items into one bin, rather than separate each item based on material. [Sentence 7] This means that aluminum cans, cardboard boxes, and newspapers can all be tossed in together. [Sentence 8] However, the utilization of single-stream recycling creates a toss-and-go mentality that increases the number of contaminated products being sent to recycling centers. [Sentence 9] Contaminated products include any items with food residue, items made from mixed materials, and low-quality plastics. [Sentence 10] If an unrinsed milk carton gets pitched into the same container as cardboard boxes, the boxes could become contaminated by the milk residue, giving both the milk carton and the boxes a one-way ticket to the garbage dump.
+          \n[Sentence 11] To further compound the issue, the cost of recycling is on the rise. [Sentence 12] This is due, in part, to foreign governments restricting the amount of recyclable materials they will import from the United States. [Sentence 13] Many Americans do not realize that U.S. recyclables are not processed and remanufactured in the United States. [Sentence 14] Rather, U.S. waste management companies collect recycling in the United States and then sell it to foreign countries, like China and Taiwan. [Sentence 15] In 2018, the Chinese government issued a statement that China would no longer be accepting many categories of waste, and capped contamination standards at less than 1 percent. [Sentence 16] To put this cap in perspective, it is important to note that U.S. paper products have a 25 percent food contamination rate. [Sentence 17] This means that, under new laws, China will not be accepting most U.S. paper waste.`
+        },
+        {
+          id: 4,
+          title: "Passage 4: Jazz (Draft)",
+          content: `[Sentence 1] Jazz was an expression of the diverse cultural and social fabric that characterized early-twentieth-century New Orleans. [Sentence 2] Ragtime, blues, marches, string orchestras, and brass bands collided in a kaleidoscope of syncopated rhythm and complex harmony.
+          \n[Sentence 3] New Orleans was a city that embraced dancing, and many early jazz musicians developed their skills providing music at dance halls and social festivals. [Sentence 4] The music, however, was not confined to these places. [Sentence 5] Jazz great Louis Armstrong recalled that at a funeral:
+          \n“Once the band starts, everybody starts swaying from one side of the street to the other, especially those who drop in and follow the ones who have been to the funeral. These people are known as ‘the second line,’ and they may be anyone passing along the street who wants to hear the music. The spirit hits them and they follow along to see what’s happening” (Armstrong, Satchmo: My Life in New Orleans).
+          \n[Sentence 6] The city created an environment in which young musicians could experiment with different sounds and styles while earning a living. [Sentence 7] Jazz not only reflected New Orleans in function, but also in form. [Sentence 8] The “improvisation which characterized New Orleans–style jazz required a delicate balance between the individual’s desire for freedom and the community’s need for order and unity” (National Park Service, “A New Orleans Jazz History, 1895–1927”). [Sentence 9] Originally labeled “ungovernable” by its first governor, the citizens of New Orleans have always had a penchant for living life on their own terms.
+          \n[Sentence 10] The collaborative nature of jazz music, with many different instruments playing improvisations as one, represented the diversity inherent in New Orleans culture. [Sentence 11] While New Orleans was a Southern city, it was extremely multicultural in makeup. [Sentence 12] People of different ethnic backgrounds lived together in neighborhoods that were largely organized by class. [Sentence 13] This allowed for a rich exchange of cultural information. [Sentence 14] This exchange of information is reflected in the music itself.
+          \n[Sentence 15] In both form and function, jazz music owes its existence to the unique characteristics of New Orleans.`
+        },
+        {
+          id: 5,
+          title: "Passage 5: Gap Year (Draft)",
+          content: `[Sentence 1] Gabriela Sosa sits with a group of elementary aged students under the shade of a banana tree in rural Honduras. [Sentence 2] A recent high school graduate, Gabriela is volunteering for a literacy program in Honduras as part of her gap year experience between high school and college. [Sentence 3] “Gap year” is the phrase used to denote the period of time taken by students between graduating high school and beginning college. [Sentence 4] The concept is gaining popularity and can be beneficial for students if implemented correctly.
+          \n[Sentence 5] Motivation is the key when considering the pros of a gap year. [Sentence 6] Students who have a clear plan to accomplish something are more likely to benefit from a gap year than those who simply want a break from school. [Sentence 7] Studies show that when students take a gap year to accomplish a specific goal, they are more likely to return to college focused on academics. [Sentence 8] This renewed focus helps them earn higher grade point averages and graduate on time.
+          \n[Sentence 9] Another benefit of the gap year is the emotional maturation of students. [Sentence 10] With six-year college completion rates hovering at about 60 percent, it is obvious that many students who attempt a college degree are not equipped to complete it in a timely manner. [Sentence 11] A gap year provides the opportunity for students to explore career options and ultimately find a degree program that meets their career goals.
+          \n[Sentence 12] A gap year is not for every student. [Sentence 13] However, with intentionality, a gap year can be a positive learning experience for many.`
+        }
+      ],
+      questions: [
+        { id: 1, passageId: 1, text: "In lines 8–12 (“If I… worth hearing”), the writer uses an em-dash in order to", options: [{ id: "A", text: "interject a tangential thought" }, { id: "B", text: "make a generalization based on the preceding clauses" }, { id: "C", text: "link together the independent clauses in the sentence" }, { id: "D", text: "break up the repetitive thoughts in the sentence" }, { id: "E", text: "draw contrasts among the preceding dependent clauses" }], correct: "B" },
+        { id: 2, passageId: 1, text: "The writer draws a parallel between herself and sinners in lines 12–15 (“As sinners…of life”) in order to", options: [{ id: "A", text: "appeal to readers’ experiences with rebounding from adversity" }, { id: "B", text: "encourage readers to attend church meetings to seek relief" }, { id: "C", text: "allude to readers’ exposure to God’s punishment" }, { id: "D", text: "engage readers who express themselves with conviction" }, { id: "E", text: "persuade readers that the origin of happiness lies within sin" }], correct: "D" },
+        { id: 3, passageId: 1, text: "In the first four sentences of the second paragraph (lines 18–21), the primary reason the writer’s sentence structure is effective is because it", options: [{ id: "A", text: "breaks down complex ideas with short sentences" }, { id: "B", text: "repeats words to produce a lyrical tone" }, { id: "C", text: "employs first-person narration to draw comparisons" }, { id: "D", text: "indicates sequence of events with clarity" }, { id: "E", text: "emphasizes the contrast between the writer’s past and present" }], correct: "E" },
+        { id: 4, passageId: 1, text: "In the sixth paragraph, last sentence, the writer states “The world…the good,” (lines 56–59) to support which of the following claims?", options: [{ id: "A", text: "If you look for the good in the world, you will find it." }, { id: "B", text: "The key to happiness is being productive." }, { id: "C", text: "In order to obtain happiness, you must act with optimism." }, { id: "D", text: "Happiness can be found most readily in the natural world." }, { id: "E", text: "You have to act happy, even if you are not truly happy, to become an optimist." }], correct: "C" },
+        { id: 5, passageId: 1, text: "In the sixth paragraph (lines 46–59), the writer expresses the primary role of evil by", options: [{ id: "A", text: "providing an example of evil in the world" }, { id: "B", text: "explaining that evil is pervasive" }, { id: "C", text: "making readers aware that good deeds can be bad deeds in disguise" }, { id: "D", text: "describing the advantages of being exposed to evil" }, { id: "E", text: "contrasting evil with good" }], correct: "D" },
+        { id: 6, passageId: 1, text: "When the passage moves from the fifth paragraph (lines 38–45) to the sixth paragraph (lines 46–59), it also moves from", options: [{ id: "A", text: "a specificity to a generalization" }, { id: "B", text: "a first-person narrator to third-person narrator" }, { id: "C", text: "an objective conjecture to a subjective conjecture" }, { id: "D", text: "an overview to an illustration" }, { id: "E", text: "a description of the past to a description of the present" }], correct: "C" },
+        { id: 7, passageId: 1, text: "In the seventh paragraph (lines 60–72), the writer includes the metaphor “cloud-castles” for which of the following purposes?", options: [{ id: "A", text: "To express the insubstantial efforts of the dreamers of the American Revolution" }, { id: "B", text: "To emphasize the unrealistic notions that the dreamers of the American Revolution had" }, { id: "C", text: "To highlight the inexcusable actions of the dreamers of the American Revolution" }, { id: "D", text: "To show that the dreamers of the American Revolution had peaceful ambitions" }, { id: "E", text: "To underscore the prospective ideals of the dreamers of the American Revolution" }], correct: "B" },
+        { id: 8, passageId: 1, text: "The writer refers to the “Endymions, Alastors and Werthers” of the world (line 64) to provide which of the following effects?", options: [{ id: "A", text: "The reference proves the uselessness of quixotic individuals." }, { id: "B", text: "The reference underscores the futility of revolution." }, { id: "C", text: "The reference serves to contrast her character with overly idealistic characters." }, { id: "D", text: "The reference emphasizes the differences between fiction and real life." }, { id: "E", text: "The reference encourages criticism of people who create false hopes in others." }], correct: "C" },
+        { id: 9, passageId: 1, text: "In the last half of the second sentence of the seventh paragraph (lines 65–66), the writer describes Carlyle as a “Scots peasant, man of dreams in the hard, practical world” primarily to", options: [{ id: "A", text: "express that idealistic dreams and practical thoughts can coexist" }, { id: "B", text: "assert that life comprises challenges" }, { id: "C", text: "indicate that he is of Scottish descent" }, { id: "D", text: "compare and contrast him with the Endymions, Alastors, and Werthers of the world" }, { id: "E", text: "characterize him as being firmly rooted in real life with an expert opinion worth listening to" }], correct: "E" },
+        { id: 10, passageId: 1, text: "Carlyle’s use of the sentence “Up, up!” (line 70) has the primary effect of", options: [{ id: "A", text: "implying the extent to which Carlyle has suffered in the past" }, { id: "B", text: "indicating Carlyle’s sarcastic tone" }, { id: "C", text: "enabling Carlyle to create a sense of urgency in readers" }, { id: "D", text: "suggesting Carlyle is trying to quell a disbelief among readers" }, { id: "E", text: "signifying that Carlyle is shouting" }], correct: "C" },
+        { id: 11, passageId: 1, text: "The writer includes Carylye’s quote, “the Night cometh wherein no man may work” (line 72), to support which of the following claims?", options: [{ id: "A", text: "Eventually hardships will reemerge." }, { id: "B", text: "The opportunity to work is a gift of life." }, { id: "C", text: "Seek the good in time of darkness." }, { id: "D", text: "It is natural to fall into depression." }, { id: "E", text: "Unemployment is a constant worry." }], correct: "B" },
+        { id: 12, passageId: 2, text: "In the first paragraph, what is the relationship between lines 1–7 (“Two years…to do”) and lines 9–14 (“We will…cruise missiles”)?", options: [{ id: "A", text: "The first four sentences provide an overview of changes taking place, and the last three sentences elaborate on those changes." }, { id: "B", text: "The first four sentences describe the former aims of the president, and the last three sentences describe the status of those aims." }, { id: "C", text: "The first four sentences provide a definition of communism, and the last three sentences provide a definition of democracy." }, { id: "D", text: "The first four sentences outline actions the president took in the past, and the last three sentences outline the actions he is presently taking." }, { id: "E", text: "The first four sentences extol the perils of communism, and the last three sentences state what happens when communism persists." }], correct: "D" },
+        { id: 13, passageId: 2, text: "Which of the following best describes the effect of the writer’s use of personification in the sentence, “Inflation, that thief, is down” (lines 27–28)?", options: [{ id: "A", text: "It portrays inflation as something he can’t control." }, { id: "B", text: "It portrays inflation as an international concern." }, { id: "C", text: "It portrays inflation as being tied to interest rates." }, { id: "D", text: "It portrays inflation as the nation’s main economic problem." }, { id: "E", text: "It portrays inflation as a fictional character not to be taken seriously." }], correct: "D" },
+        { id: 14, passageId: 2, text: "The speaker implies which of the following in lines 54–55 (“Let’s be…with you”)?", options: [{ id: "A", text: "He’s been slightly misleading in his previous remarks." }, { id: "B", text: "He’s about to say something that politicians don’t typically disclose." }, { id: "C", text: "He’s struggling to get his audience’s attention." }, { id: "D", text: "He’s about to express the complications of putting forth his policies." }, { id: "E", text: "He’s going to explain something that will be difficult to hear." }], correct: "B" },
+        { id: 15, passageId: 2, text: "Which of the following best expresses the function of the third paragraph (lines 25–41)?", options: [{ id: "A", text: "It supports the writer’s statements in the second paragraph." }, { id: "B", text: "It expresses challenges in order to refute them in the fourth paragraph." }, { id: "C", text: "Its somber tone provides a transition to the serious subject that follows." }, { id: "D", text: "Its diverting subject matter creates a suspenseful tension." }, { id: "E", text: "It discusses a topic inverse to the paragraphs that come before it." }], correct: "C" },
+        { id: 16, passageId: 2, text: "The primary purpose of the use of lines 33–35 (“And now….your country”) is to", options: [{ id: "A", text: "compare President Kennedy’s manner of speaking to President Bush’s" }, { id: "B", text: "suggest that the writer was expressing the importance of civic action" }, { id: "C", text: "explain that members of Congress are public servants" }, { id: "D", text: "contrast the policies of the 1960s with those of the 1990s" }, { id: "E", text: "allude to President Kennedy’s famous words" }], correct: "E" },
+        { id: 17, passageId: 2, text: "By comparing people who disagree with tax policy to “Puritans” in lines 42–46 (“I’ll tell…good time”), the writer implies his opponents are", options: [{ id: "A", text: "extremely religious" }, { id: "B", text: "needlessly optimistic" }, { id: "C", text: "excessively rigid" }, { id: "D", text: "openly irritable" }, { id: "E", text: "markedly wealthy" }], correct: "C" },
+        { id: 18, passageId: 2, text: "In the fifth paragraph, the writer uses “big guy” and “little guy” (lines 50–51) in order to", options: [{ id: "A", text: "assuage the opinion that upper-class people are better than lower-class people" }, { id: "B", text: "intimidate audience members who disagree with his policies" }, { id: "C", text: "convey a sense of simplicity to an otherwise complex dynamic" }, { id: "D", text: "encourage a combative approach between the wealthy and the impoverished" }, { id: "E", text: "embolden everyday people to appeal to famous people for financial contributions" }], correct: "C" },
+        { id: 19, passageId: 2, text: "The writer includes the statement “I know…partisan terms” (lines 55–57) primarily in order to", options: [{ id: "A", text: "persuade people that his intentions are for the good of the American people" }, { id: "B", text: "detract his audience from focusing on the disagreements that have long plagued Republicans and Democrats" }, { id: "C", text: "convince individuals not to think of politics in black-and-white terms" }, { id: "D", text: "admonish members of Congress for tending to disbelieve his motivations" }, { id: "E", text: "express the complexity of his policies and the patience that’s required to comprehend them" }], correct: "A" },
+        { id: 20, passageId: 2, text: "When the writer says, “But I ask…will help” (lines 57–60), he is using which of the following approaches to persuade his audience?", options: [{ id: "A", text: "Reasoning and logic" }, { id: "B", text: "Emotion and personal character" }, { id: "C", text: "Facts and figures" }, { id: "D", text: "Moral and ethical claims" }, { id: "E", text: "Analysis and inference" }], correct: "B" },
+        { id: 21, passageId: 2, text: "The primary purpose of the statement “But I… of improvement” (lines 62–65) is to relate to the audience by expressing a commonly held idea that", options: [{ id: "A", text: "some politicians complain about the problems they create" }, { id: "B", text: "progress is often thwarted by politicians who have ill will" }, { id: "C", text: "the only way to improve the country is by cunning political strategizing" }, { id: "D", text: "if politicians don’t allow for compromise, nothing gets accomplished" }, { id: "E", text: "some politicians do not take their roles seriously enough" }], correct: "B" },
+        { id: 22, passageId: 2, text: "The repetition in lines 76–78 (“We are…on Earth”) serves to", options: [{ id: "A", text: "emphasize America’s international standing" }, { id: "B", text: "invoke confidence in the writer’s leadership" }, { id: "C", text: "inspire citizens to think about the global impact of their actions" }, { id: "D", text: "stress the principles that Americans value most" }, { id: "E", text: "accentuate the United States’ worldwide accomplishments" }], correct: "D" },
+        { id: 23, passageId: 2, text: "The writer primarily develops the passage by utilizing", options: [{ id: "A", text: "a crescendo of dramatic personal accounts" }, { id: "B", text: "statements followed by supportive evidence" }, { id: "C", text: "a chronology of events" }, { id: "D", text: "a pronouncement of intentions" }, { id: "E", text: "an assertion of pros and cons" }], correct: "D" },
+        { id: 24, passageId: 3, text: "In sentence 4, which of the following versions of the underlined text most effectively transitions the reader from the introduction to the main argument of the passage?", options: [{ id: "A", text: "Many U.S. communities have implemented recycling initiatives... including curbside pickup, current recycling systems that utilize single-stream recycling and global changes..." }, { id: "B", text: "curbside pickup; however, current recycling systems that utilize single-stream recycling" }, { id: "C", text: "curbside pickup and current recycling systems that utilize single-stream recycling" }, { id: "D", text: "curbside pickup together with current recycling systems that utilize single-stream recycling" }, { id: "E", text: "curbside pickup, as opposed to current recycling systems that utilize single-stream recycling" }], correct: "B" },
+        { id: 25, passageId: 3, text: "In sentence 10, which version of the underlined text best maintains the writer’s tone?", options: [{ id: "A", text: "giving both the milk carton and the boxes a one-way ticket to the garbage dump." }, { id: "B", text: "marking both the milk carton and the boxes as disposable junk" }, { id: "C", text: "causing both the milk carton and the boxes to be disposed of as waste" }, { id: "D", text: "so you might as well chuck both the milk carton and the boxes into the dumpster" }, { id: "E", text: "which means you’ve effectively turned your boxes and milk cartons into trash" }], correct: "C" },
+        { id: 26, passageId: 3, text: "The writer wants to add the following sentence to the second paragraph to introduce a counterclaim. 'Proponents of single-stream recycling argue that while there is an increased risk of contamination, this risk is offset by the increased number of items being recycled.' Where would the sentence best be placed?", options: [{ id: "A", text: "Before sentence 5" }, { id: "B", text: "After sentence 6" }, { id: "C", text: "After sentence 7" }, { id: "D", text: "After sentence 9" }, { id: "E", text: "After sentence 10" }], correct: "C" },
+        { id: 27, passageId: 3, text: "In sentence 11, the writer wants to provide a link between the main argument and the development of ideas within the paragraph. Which of the following versions of the underlined text best achieves this purpose?", options: [{ id: "A", text: "To further compound the issue, the cost of recycling is on the rise." }, { id: "B", text: "Further complicating the process of recycling is that" }, { id: "C", text: "As if contamination wasn’t a big enough problem," }, { id: "D", text: "Recycling is made more ineffective by the fact that" }, { id: "E", text: "Many recycling companies must contend with the reality that" }], correct: "B" },
+        { id: 28, passageId: 3, text: "The writer wants to add the following sentence to the third paragraph to provide a piece of evidence. 'One New Hampshire-based waste management company saw its recycling costs increase from $6.00 per ton to over $100.00 per ton in a matter of months.' Where would the sentence best be placed?", options: [{ id: "A", text: "Before sentence 11" }, { id: "B", text: "After sentence 11" }, { id: "C", text: "After sentence 12" }, { id: "D", text: "After sentence 13" }, { id: "E", text: "After sentence 14" }], correct: "B" },
+        { id: 29, passageId: 3, text: "The writer wants to clarify the information in sentence 16 by changing the underlined text, adjusting the punctuation, and capitalizing as needed. Which of the following versions of the underlined text best achieves this goal?", options: [{ id: "A", text: "To put this cap in perspective, it is important to note that U.S. paper products have a 25 percent food contamination rate." }, { id: "B", text: "U.S. paper products have, it is important to note, a food contamination rate of 25 percent." }, { id: "C", text: "Americans need to understand that U.S. paper products are highly contaminated with food." }, { id: "D", text: "25 percent of all U.S. paper products placed in a recycling bin are marred by food waste or residue." }, { id: "E", text: "you should know that nearly a quarter of U.S. paper products cannot be recycled due to food contamination." }], correct: "D" },
+        { id: 30, passageId: 3, text: "Which of the following sentences, if placed after sentence 17, would provide the most effective conclusion to the main argument of the passage?", options: [{ id: "A", text: "Because U.S. waste management companies cannot afford to process recycling in-house, most materials collected through recycling will be deposited in landfills." }, { id: "B", text: "As doors continue to close on recycling, both in collection and processing, waste disposal companies must consider more effective solutions to the problem of trash." }, { id: "C", text: "Some waste management groups report that because of the increase in recycling costs, it is cheaper to burn or dump items collected for recycling." }, { id: "D", text: "One solution to the issue of recycling is for waste management companies to better educate consumers on the importance of sorting recyclables before disposing." }, { id: "E", text: "Americans should act to eliminate waste on an individual level by using reusable containers and bottles, limiting the consumption of paper products, and buying items in bulk." }], correct: "B" },
+        { id: 31, passageId: 4, text: "Which of the following sentences could the writer add before sentence 1 to most provide the most effective introduction to the passage?", options: [{ id: "A", text: "While the history of musical expression is often debated, most historians and musicians agree that New Orleans is the birthplace of American jazz music." }, { id: "B", text: "Recognized as an inherently American art form, jazz music has roots in African American traditions dating before the Civil War." }, { id: "C", text: "From Mardi Gras parades to beignets in the French Quarter, New Orleans is a city that is rich in both diversity and character." }, { id: "D", text: "While the blues gave voice to the oppression and despair of segregation, jazz explored the effervescent possibility of freedom." }, { id: "E", text: "American jazz was popularized in 1917, when the Original Dixieland Jazz Band recorded the first jazz record." }], correct: "A" },
+        { id: 32, passageId: 4, text: "The writer intends for the text to be read by students in an introductory music class. Which sentence, when added after sentence 1, would most effectively aid a student’s understanding?", options: [{ id: "A", text: "Jazz is a form of modern American music that was created by African American musicians and is characterized by unique rhythms and improvisation." }, { id: "B", text: "A lone trumpet calls out in the night, its syncopated notes echoed by a trombone that is soon joined by bass and a piano." }, { id: "C", text: "From football to fast food, there are things that are quintessentially American; but perhaps none so much as jazz music." }, { id: "D", text: "New Orleans developed along the Mississippi River as a trading port for French fur trappers and was later home to major shipping industries." }, { id: "E", text: "The Mississippi River is the lifeblood of New Orleans, ferrying goods and people over the years to build a one-of-a-kind city." }], correct: "A" },
+        { id: 33, passageId: 4, text: "In sentence 2, the writer is considering deleting the underlined text. 'Ragtime, blues, marches, string orchestras, and brass bands collided in a kaleidoscope of syncopated rhythm and complex harmony.' Should the writer keep or delete the underlined text?", options: [{ id: "A", text: "Keep it because it provides a description of the diverse “cultural and social fabric” that enabled the creation of jazz." }, { id: "B", text: "Keep it because it supports the audience’s perspective that New Orleans is a colorful city." }, { id: "C", text: "Keep it because it provides a contrast to how American music changed throughout the twentieth century." }, { id: "D", text: "Delete it because it changes the tone of the sentence from being philosophical to absurd." }, { id: "E", text: "Delete it because it introduces a counterclaim before the main argument is presented." }], correct: "A" },
+        { id: 34, passageId: 4, text: "The writer wants to modify sentence 3 to introduce an argument that can be supported by the evidence within the paragraph. 'New Orleans was a city that embraced dancing, and many early jazz musicians developed their skills providing music at dance halls and social festivals.' Which of the following versions of the underlined text best accomplishes this goal?", options: [{ id: "A", text: "(as it is now)" }, { id: "B", text: "jazz musicians were eager to provide music that kept people dancing at both dance halls and social festivals" }, { id: "C", text: "people there were eager to explore new forms of dancing that were accompanied by new musical forms" }, { id: "D", text: "dance halls and social festivals provided a space to indulge in the freedom of dancing" }, { id: "E", text: "the festive culture of the city precipitated a change in the function of music that found expression in early jazz songs" }], correct: "A" },
+        { id: 35, passageId: 4, text: "The writer wants to add more information after sentence 6 to support the main argument. All of the following pieces of evidence help achieve this purpose EXCEPT which one?", options: [{ id: "A", text: "A biographical sketch of early jazz musicians in New Orleans that chronicles how their careers developed" }, { id: "B", text: "An article published on a university website that describes the music scene in New Orleans in the early twentieth century" }, { id: "C", text: "A blog post on a Louisiana tourism website that highlights popular New Orleans music clubs" }, { id: "D", text: "A transcript of an interview with an early jazz pioneer about experimenting with style while playing in New Orleans" }, { id: "E", text: "A documentary film tracing the evolution of jazz music from its early days in New Orleans to contemporary jazz greats" }], correct: "C" },
+        { id: 36, passageId: 4, text: "The writer wants to add the following sentence to paragraph 4 to more effectively explain the relationship between jazz form and New Orleans. 'Jazz, in its purest form, is ungovernable by the rules of traditional music, focusing on improvisation and syncopation rather than structured notes and beats.' Where would the sentence be most effective?", options: [{ id: "A", text: "Before sentence 6" }, { id: "B", text: "After sentence 6" }, { id: "C", text: "After sentence 7" }, { id: "D", text: "After sentence 8" }, { id: "E", text: "The sentence would not be effective in the paragraph." }], correct: "C" },
+        { id: 37, passageId: 4, text: "The writer is considering modifying sentence 10 to eliminate the underlined parenthetical phrase. 'The collaborative nature of jazz music, with many different instruments playing improvisations as one, represented the diversity inherent in New Orleans culture.' Should the writer eliminate the underlined text?", options: [{ id: "A", text: "Yes, because it interrupts the argument that jazz collaborations represent New Orleans culture." }, { id: "B", text: "Yes, because it is an unnecessary detail that does not add meaning to the sentence." }, { id: "C", text: "Yes, because it inappropriately shifts from past tense to present perfect tense." }, { id: "D", text: "No, because it provides a description of improvisation that might aid understanding." }, { id: "E", text: "No, because it is an interesting detail that some readers might enjoy learning." }], correct: "D" },
+        { id: 38, passageId: 4, text: "In sentence 11, the writer wants to more effectively illustrate the uniqueness of New Orleans in regard to population demographics. 'While New Orleans was a Southern city, it was extremely multicultural in makeup.' Which version of the underlined text best accomplishes this goal?", options: [{ id: "A", text: "(as it is now)" }, { id: "B", text: "part of the segregated South, its citizens were ethnically diverse" }, { id: "C", text: "a very Southern city, its population was more multicultural" }, { id: "D", text: "a Southern city geographically, many citizens came from the North" }, { id: "E", text: "in the South, the musical influences came from across the globe" }], correct: "B" },
+        { id: 39, passageId: 5, text: "In sentence 1, the writer is considering deleting the underlined text. 'Gabriela Sosa sits with a group of elementary aged students under the shade of a banana tree in rural Honduras.' Should the writer keep or delete the underlined text?", options: [{ id: "A", text: "Keep it because it establishes context and provides a description that clarifies the purpose of a gap year." }, { id: "B", text: "Keep it because it helps audiences in developing nations see that an education is possible." }, { id: "C", text: "Keep it because it establishes an uplifting and optimistic tone that will appeal to readers." }, { id: "D", text: "Delete it because it is contrary to the writer’s purpose and detracts from the main argument." }, { id: "E", text: "Delete it because there is no supporting evidence to defend the claim suggested in the sentence." }], correct: "A" },
+        { id: 40, passageId: 5, text: "In sentence 4, which version of the underlined text best clarifies the writer’s purpose? 'The concept is gaining popularity and can be beneficial for students if implemented correctly.'", options: [{ id: "A", text: "(as it is now)" }, { id: "B", text: "but is not useful for students who want to graduate with honors" }, { id: "C", text: "yet teaches irresponsibility and self-centered behavior" }, { id: "D", text: "even though it has been in existence since the 1800s" }, { id: "E", text: "as students around the United States seek alternatives to college" }], correct: "A" },
+        { id: 41, passageId: 5, text: "The writer wants to revise the underlined text in sentence 5 to more effectively emphasize the main argument. 'Motivation is the key when considering the pros of a gap year.' Which change best achieves this goal?", options: [{ id: "A", text: "implications" }, { id: "B", text: "drawbacks" }, { id: "C", text: "appeal" }, { id: "D", text: "efficacy" }, { id: "E", text: "criticisms" }], correct: "D" },
+        { id: 42, passageId: 5, text: "The writer wants to add the following quote to the second paragraph (sentences 5–8) to build support for the main argument. 'Almost anything can make a gap year rewarding, say experts, so long as the time is well planned' Where would this quote be most effective?", options: [{ id: "A", text: "Before sentence 5" }, { id: "B", text: "After sentence 5" }, { id: "C", text: "After sentence 6" }, { id: "D", text: "After sentence 7" }, { id: "E", text: "After sentence 8" }], correct: "C" },
+        { id: 43, passageId: 5, text: "The writer wants to add a word or phrase at the beginning of sentence 11, adjusting the capitalization as needed, to more effectively connect the ideas in sentence 11 to sentence 10. 'A gap year provides the opportunity for students to explore career options and ultimately find a degree program that meets their career goals.' Which of the following words or phrases best accomplishes this goal?", options: [{ id: "A", text: "For example," }, { id: "B", text: "Instead," }, { id: "C", text: "Likewise," }, { id: "D", text: "In addition," }, { id: "E", text: "Also," }], correct: "B" },
+        { id: 44, passageId: 5, text: "The writer wants to make a comparison in the third paragraph (sentences 9–11) to aid the reader’s understanding of the main argument. Which comparison would most effectively achieve this goal?", options: [{ id: "A", text: "Similar to newborn puppies, many high school graduates are completely dependent on the adults in their lives." }, { id: "B", text: "College is a journey and, as with any journey, one must make preparations in advance." }, { id: "C", text: "Like the protagonist in a coming-of-age novel, students emerge from a gap year with new insight into life and self." }, { id: "D", text: "Many students graduate from high school with a limited understanding of who they are and what they want from life." }, { id: "E", text: "Students should be careful, however, as it is possible to waste the opportunity of a gap year by acting like it’s a long vacation." }], correct: "C" },
+        { id: 45, passageId: 5, text: "In the fourth paragraph (sentences 12–13), the writer wants to expand on the claim that a gap year is not for every student. Which of the following pieces of evidence would best achieve this goal?", options: [{ id: "A", text: "Some students note that it can be difficult to return to school and find that your peers have moved on in their educational pursuits, while you are a year behind." }, { id: "B", text: "Although, almost 90 percent of students who take a gap year attest to its educational benefits." }, { id: "C", text: "There are some students who just do not have the self-discipline to use the gap year appropriately." }, { id: "D", text: "Many top-ranking colleges and universities support the idea of a gap year for students and assist them in making the most of it." }, { id: "E", text: "Students should talk to a college advisor before determining whether or not to take a gap year." }], correct: "A" }
+      ]
+    };
+
+    // --- STATE ---
+    let hasStarted = false;
+    let isSubmitted = false;
+    let currentQIndex = 0;
+    let timeLeft = 5400; // 90 minutes
+    let answers = {};
+    let eliminatedOptions = {};
+    let timerInterval = null;
+
+    // --- LOGIC ---
+    function formatTime(seconds) {
+      const m = Math.floor(seconds / 60);
+      const s = seconds % 60;
+      return `${m}:${s.toString().padStart(2, '0')}`;
+    }
+
+    window.startTest = function() {
+      hasStarted = true;
+      render();
+      
+      timerInterval = setInterval(() => {
+        if (timeLeft <= 1) {
+          clearInterval(timerInterval);
+          isSubmitted = true;
+          timeLeft = 0;
+          render();
+        } else {
+          timeLeft--;
+          const timerDisplay = document.getElementById('timer-display');
+          if(timerDisplay) {
+            timerDisplay.innerText = formatTime(timeLeft);
+            if(timeLeft < 300) {
+              timerDisplay.classList.add('text-red-400', 'animate-pulse');
+            }
+          }
+        }
+      }, 1000);
+    }
+
+    window.submitTest = function() {
+      if (confirm("Are you sure you want to submit your test?")) {
+        isSubmitted = true;
+        clearInterval(timerInterval);
+        render();
+      }
+    }
+
+    window.selectAnswer = function(qId, optId) {
+      answers[qId] = optId;
+      render();
+    }
+
+    window.toggleEliminate = function(event, qId, optId) {
+      event.stopPropagation();
+      if (!eliminatedOptions[qId]) eliminatedOptions[qId] = [];
+      
+      const idx = eliminatedOptions[qId].indexOf(optId);
+      if (idx > -1) {
+        eliminatedOptions[qId].splice(idx, 1);
+      } else {
+        eliminatedOptions[qId].push(optId);
+      }
+      render();
+    }
+
+    window.goToQuestion = function(idx) {
+      currentQIndex = idx;
+      render();
+    }
+
+    // --- RENDERERS ---
+    function renderStartScreen() {
+      return `
+        <div class="flex flex-col items-center justify-center min-h-screen bg-gray-50 p-6">
+          <div class="max-w-2xl bg-white p-8 rounded-lg shadow-lg text-center">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4">AP® English Language and Composition</h1>
+            <h2 class="text-xl text-gray-600 mb-6">Interactive Practice Test 1</h2>
+            <div class="bg-blue-50 text-blue-800 p-4 rounded text-left mb-8 text-sm">
+              <h3 class="font-semibold text-lg flex items-center mb-2">
+                ${icons.alertCircle} Testing Accommodations Enabled
+              </h3>
+              <ul class="list-disc pl-5 space-y-2">
+                <li><strong>Timer:</strong> Time + 50% applied. You have 90 minutes to complete ${testData.questions.length} questions.</li>
+                <li><strong>Elimination Tool:</strong> Click the <span class="inline-block align-middle w-4 h-4 mx-1">${icons.eyeOff}</span> icon next to any option to visually cross it out.</li>
+                <li><strong>Withheld Results:</strong> Correct answers and rationale will only be shown after you submit your exam.</li>
+              </ul>
+            </div>
+            <button onclick="startTest()" class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-8 rounded-full transition transform hover:scale-105">
+              Start Exam
+            </button>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderResultsScreen() {
+      let score = 0;
+      let questionsHtml = '';
+
+      testData.questions.forEach((q, i) => {
+        const isCorrect = answers[q.id] === q.correct;
+        const isUnanswered = !answers[q.id];
+        if (isCorrect) score++;
+
+        let borderClass = isCorrect ? 'border-green-500 bg-green-50' : (isUnanswered ? 'border-yellow-500 bg-yellow-50' : 'border-red-500 bg-red-50');
+
+        let optionsHtml = '';
+        q.options.forEach(opt => {
+          const isChosen = answers[q.id] === opt.id;
+          const isActualCorrect = q.correct === opt.id;
+          
+          let optClass = "p-2 rounded ";
+          let iconHtml = "";
+
+          if (isActualCorrect) {
+            optClass += "bg-green-200 font-semibold text-green-900 border border-green-400";
+            if (isChosen) iconHtml = `<span class="inline-block ml-2 text-green-700 align-middle">${icons.checkCircle}</span>`;
+          } else if (isChosen && !isActualCorrect) {
+            optClass += "bg-red-200 text-red-900 border border-red-400 line-through";
+            iconHtml = `<span class="inline-block ml-2 text-red-700 align-middle">${icons.xCircle}</span>`;
+          } else {
+            optClass += "text-gray-600";
+          }
+
+          optionsHtml += `
+            <div class="${optClass}">
+              ${opt.id}. ${opt.text} ${iconHtml}
+            </div>
+          `;
+        });
+
+        questionsHtml += `
+          <div class="p-4 rounded-lg border-l-4 ${borderClass}">
+            <h3 class="font-semibold text-gray-800 mb-2">
+              <span class="mr-2">${i + 1}.</span> ${q.text}
+            </h3>
+            <div class="ml-6 space-y-2 text-sm">
+              ${optionsHtml}
+            </div>
+          </div>
+        `;
+      });
+
+      const percentage = Math.round((score / testData.questions.length) * 100);
+
+      return `
+        <div class="flex flex-col h-screen overflow-y-auto p-6">
+          <div class="max-w-4xl mx-auto w-full bg-white shadow-lg rounded-lg p-8">
+            <div class="text-center mb-8 border-b pb-6">
+              <h1 class="text-3xl font-bold text-gray-800">Exam Results</h1>
+              <p class="text-2xl mt-4">
+                Your Score: <span class="font-bold text-blue-600">${score}</span> / ${testData.questions.length}
+              </p>
+              <p class="text-gray-500 mt-2">(${percentage}%)</p>
+            </div>
+            <div class="space-y-8">
+              ${questionsHtml}
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function renderTestScreen() {
+      const currentQuestion = testData.questions[currentQIndex];
+      const currentPassage = testData.passages.find(p => p.id === currentQuestion.passageId);
+      const qElim = eliminatedOptions[currentQuestion.id] || [];
+
+      // Build options
+      let optionsHtml = '';
+      currentQuestion.options.forEach(opt => {
+        const isEliminated = qElim.includes(opt.id);
+        const isSelected = answers[currentQuestion.id] === opt.id;
+        
+        let containerClass = "flex items-center justify-between p-4 border rounded-lg cursor-pointer transition-all ";
+        if (isEliminated) containerClass += "bg-gray-100 border-gray-200 opacity-60";
+        else if (isSelected) containerClass += "border-blue-500 bg-blue-50 ring-1 ring-blue-500";
+        else containerClass += "bg-white border-gray-300 hover:border-blue-300 hover:shadow-sm";
+
+        let textClass = isEliminated ? "line-through text-gray-500" : "text-gray-800";
+        let radioClass = isSelected ? "border-blue-600" : "border-gray-400";
+        let dotHtml = isSelected ? '<div class="w-3 h-3 rounded-full bg-blue-600"></div>' : '';
+        
+        let buttonClass = `ml-4 p-2 rounded-full hover:bg-gray-200 transition ${isEliminated ? 'text-red-500' : 'text-gray-400 hover:text-gray-700'}`;
+        let buttonTitle = isEliminated ? "Restore Option" : "Cross Out Option";
+
+        optionsHtml += `
+          <div onclick="${isEliminated ? '' : `selectAnswer(${currentQuestion.id}, '${opt.id}')`}" class="${containerClass}">
+            <div class="flex items-center space-x-4 flex-1">
+              <div class="w-5 h-5 rounded-full border flex flex-shrink-0 items-center justify-center ${radioClass}">
+                ${dotHtml}
+              </div>
+              <div class="text-sm md:text-base ${textClass}">
+                <span class="font-bold mr-2">${opt.id}.</span> ${opt.text}
+              </div>
+            </div>
+            <button onclick="toggleEliminate(event, ${currentQuestion.id}, '${opt.id}')" class="${buttonClass}" title="${buttonTitle}">
+              ${icons.eyeOff}
+            </button>
+          </div>
+        `;
+      });
+
+      // Build Nav bubbles
+      let navHtml = '';
+      testData.questions.forEach((q, idx) => {
+        let btnClass = "flex-shrink-0 w-8 h-8 rounded-full text-xs font-bold border transition ";
+        if (currentQIndex === idx) btnClass += "bg-blue-600 text-white border-blue-600";
+        else if (answers[q.id]) btnClass += "bg-blue-100 text-blue-800 border-blue-300";
+        else btnClass += "bg-white text-gray-600 hover:bg-gray-200";
+
+        navHtml += `<button onclick="goToQuestion(${idx})" class="${btnClass}">${idx + 1}</button>`;
+      });
+
+      const prevDisabled = currentQIndex === 0 ? 'disabled' : '';
+      const nextDisabled = currentQIndex === testData.questions.length - 1 ? 'disabled' : '';
+
+      return `
+        <div class="flex flex-col h-screen">
+          <!-- Top Nav -->
+          <div class="bg-blue-900 text-white shadow-md flex justify-between items-center px-6 py-3">
+            <div class="font-bold text-lg hidden sm:block">AP® English Language and Composition</div>
+            <div class="flex items-center space-x-2 bg-blue-800 px-4 py-1 rounded-full border border-blue-700">
+              ${icons.clock}
+              <span id="timer-display" class="font-mono text-lg ${timeLeft < 300 ? 'text-red-400 animate-pulse' : ''}">${formatTime(timeLeft)}</span>
+            </div>
+            <button onclick="submitTest()" class="bg-red-600 hover:bg-red-700 px-4 py-2 rounded font-semibold text-sm transition shadow">
+              Submit Test
+            </button>
+          </div>
+
+          <!-- Split Interface -->
+          <div class="flex-1 flex overflow-hidden">
+            <!-- Left Pane -->
+            <div class="w-1/2 p-6 overflow-y-auto border-r border-gray-300 bg-white">
+              <h2 class="text-xl font-bold mb-4 text-gray-800 border-b pb-2 sticky top-0 bg-white z-10">${currentPassage.title}</h2>
+              <div class="text-gray-700 leading-relaxed font-serif text-[15px] space-y-4 whitespace-pre-wrap">${currentPassage.content}</div>
+            </div>
+
+            <!-- Right Pane -->
+            <div class="w-1/2 flex flex-col bg-gray-50 relative">
+              <!-- Pagination -->
+              <div class="bg-white border-b px-4 py-2 flex items-center justify-between shadow-sm z-10">
+                <button onclick="goToQuestion(${Math.max(0, currentQIndex - 1)})" ${prevDisabled} class="p-2 text-gray-500 hover:bg-gray-100 rounded disabled:opacity-30">
+                  ${icons.chevronLeft}
+                </button>
+                <div class="flex space-x-1 overflow-x-auto px-2 mx-2 custom-scrollbar">
+                  ${navHtml}
+                </div>
+                <button onclick="goToQuestion(${Math.min(testData.questions.length - 1, currentQIndex + 1)})" ${nextDisabled} class="p-2 text-gray-500 hover:bg-gray-100 rounded disabled:opacity-30">
+                  ${icons.chevronRight}
+                </button>
+              </div>
+
+              <!-- Question Content -->
+              <div class="flex-1 overflow-y-auto p-8">
+                <div class="mb-6">
+                  <span class="bg-gray-200 text-gray-700 px-3 py-1 rounded text-xs font-bold uppercase tracking-wider mb-3 inline-block">
+                    Question ${currentQIndex + 1} of ${testData.questions.length}
+                  </span>
+                  <h3 class="text-lg font-medium text-gray-900 leading-snug">
+                    ${currentQuestion.text}
+                  </h3>
+                </div>
+                <div class="space-y-3">
+                  ${optionsHtml}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // --- MAIN RENDER ---
+    function render() {
+      const app = document.getElementById('app');
+      if (!hasStarted) {
+        app.innerHTML = renderStartScreen();
+      } else if (isSubmitted) {
+        app.innerHTML = renderResultsScreen();
+      } else {
+        app.innerHTML = renderTestScreen();
+        // Keep the scrollbar synced when navigating questions
+        const activeNavBtn = document.querySelector('.custom-scrollbar button.bg-blue-600');
+        if (activeNavBtn) activeNavBtn.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      }
+    }
+
+    // Initial load
+    render();
+  </script>
+</body>
+</html>
